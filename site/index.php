@@ -2,6 +2,55 @@
 
     require "database.php";
 
+    $minNameLength = 3;
+    $maxNameLength = 20;
+
+    function validateFirstName($firstName){
+        
+        $validation = true;
+
+        return $validation;
+    }
+
+    function validateLastName($lastName){
+        
+        $validation = true;
+
+        return $validation;
+    }
+
+    function validateEmail($email){
+        
+        $validation = true;
+
+        return $validation;
+    }
+
+    function validatePassword($password){
+        
+        $validation = true;
+
+        return $validation;
+    }
+
+    function validateIpAddress($ipAddress){
+        
+        $validation = true;
+
+        return $validation;
+    }
+
+    function mainValidation($userArray){
+
+        $validation = validateFirstName($userArray["first_name"]);
+        $validation = validateFirstName($userArray["last_name"]);
+        $validation = validateFirstName($userArray["email"]);
+        $validation = validateFirstName($userArray["password"]);
+        $validation = validateFirstName($userArray["ip_address"]);
+
+        return $validation;
+    }
+
     if(isset($_GET["delete"])){
 
         $delete = $conn->prepare("DELETE FROM users WHERE id =:id");
@@ -10,21 +59,27 @@
     }
 
     if(isset($_POST["create"])){
-        $create = $conn->prepare("INSERT INTO users(first_name,last_name,email,password,ip_address)
-        VALUES (
-            :first_name,
-            :last_name,
-            :email,
-            :password,
-            :ip_address
-        )");
-        
-        $create->bindParam("first_name",$_POST["first_name"]);
-        $create->bindParam("last_name",$_POST["last_name"]);
-        $create->bindParam("email",$_POST["email"]);
-        $create->bindParam("password",$_POST["password"]);
-        $create->bindParam("ip_address",$_POST["ip_address"]);
-        $create->execute();
+
+        $validation = mainValidation($_POST);
+
+        if($validation){
+
+            $create = $conn->prepare("INSERT INTO users(first_name,last_name,email,password,ip_address)
+            VALUES (
+                :first_name,
+                :last_name,
+                :email,
+                :password,
+                :ip_address
+            )");
+            
+            $create->bindParam("first_name",$_POST["first_name"]);
+            $create->bindParam("last_name",$_POST["last_name"]);
+            $create->bindParam("email",$_POST["email"]);
+            $create->bindParam("password",$_POST["password"]);
+            $create->bindParam("ip_address",$_POST["ip_address"]);
+            $create->execute();
+        }
     }
 
     if(isset($_POST["edit"])){
