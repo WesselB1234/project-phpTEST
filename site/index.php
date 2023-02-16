@@ -2,53 +2,40 @@
 
     require "database.php";
 
-    $minNameLength = 3;
-    $maxNameLength = 20;
-
-    function validateFirstName($firstName){
+    function validateEmail(){
         
-        $validation = true;
-
-        return $validation;
+        if(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
+            return true;
+        }
+        
+        return false;
     }
 
-    function validateLastName($lastName){
+    function validateIpAddress(){
         
-        $validation = true;
+        if(filter_var($_POST["ip_address"],FILTER_VALIDATE_IP)){
+            return true;
+        }
 
-        return $validation;
+        return false;
     }
 
-    function validateEmail($email){
-        
-        $validation = true;
+    function mainValidation(){
 
-        return $validation;
-    }
+        $validationMethods = [validateEmail(),validateIpAddress()];
 
-    function validatePassword($password){
-        
-        $validation = true;
+        foreach($validationMethods as $method){
 
-        return $validation;
-    }
+            if($method == false){
+                return false;
+            }
+        }
 
-    function validateIpAddress($ipAddress){
-        
-        $validation = true;
+        $_POST["first_name"] = filter_var($_POST["first_name"],FILTER_SANITIZE_SPECIAL_CHARS);
+        $_POST["last_name"] = filter_var($_POST["last_name"],FILTER_SANITIZE_SPECIAL_CHARS);
+        $_POST["password"] = filter_var($_POST["password"],FILTER_SANITIZE_SPECIAL_CHARS);
 
-        return $validation;
-    }
-
-    function mainValidation($userArray){
-
-        $validation = validateFirstName($userArray["first_name"]);
-        $validation = validateFirstName($userArray["last_name"]);
-        $validation = validateFirstName($userArray["email"]);
-        $validation = validateFirstName($userArray["password"]);
-        $validation = validateFirstName($userArray["ip_address"]);
-
-        return $validation;
+        return true;
     }
 
     if(isset($_GET["delete"])){
@@ -60,7 +47,7 @@
 
     if(isset($_POST["create"])){
 
-        $validation = mainValidation($_POST);
+        $validation = mainValidation();
 
         if($validation){
 
@@ -84,29 +71,33 @@
 
     if(isset($_POST["edit"])){
 
-        $update = $conn->prepare("UPDATE users 
-        SET 
-            first_name = :first_name,
-            last_name = :last_name,
-            email = :email,
-            password = :password,
-            ip_address = :ip_address 
+        $validation = mainValidation();
+
+        if($validation){
+
+            $update = $conn->prepare("UPDATE users 
+            SET 
+                first_name = :first_name,
+                last_name = :last_name,
+                email = :email,
+                password = :password,
+                ip_address = :ip_address 
+            
+            WHERE id = :id");
         
-        WHERE id = :id");
-       
-        $update->bindParam("first_name",$_POST["first_name"]);
-        $update->bindParam("last_name",$_POST["last_name"]);
-        $update->bindParam("email",$_POST["email"]);
-        $update->bindParam("password",$_POST["password"]);
-        $update->bindParam("ip_address",$_POST["ip_address"]);
-        $update->bindParam("id",$_POST["edit"]);
-        $update->execute();
+            $update->bindParam("first_name",$_POST["first_name"]);
+            $update->bindParam("last_name",$_POST["last_name"]);
+            $update->bindParam("email",$_POST["email"]);
+            $update->bindParam("password",$_POST["password"]);
+            $update->bindParam("ip_address",$_POST["ip_address"]);
+            $update->bindParam("id",$_POST["edit"]);
+            $update->execute();
+        }
     }
 
     $select = $conn->prepare("SELECT * FROM users");
     $select->execute();
     $userArray = $select->fetchAll();
-    
 ?>
 
 <!DOCTYPE html>
