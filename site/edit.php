@@ -1,5 +1,4 @@
 <?php
-
     require "database.php";
 
     $user = $conn->prepare("SELECT * FROM users WHERE id = :id");
@@ -19,24 +18,14 @@
 <body>
     <form action="index.php" method="POST">
         <input type="hidden" name="edit" value="<?php echo $user["id"];?>">
-        <td>
-            <input type="text" name="first_name" value="<?php echo $user["first_name"] ?>">
-        </td>
-        <td>
-            <input type="text" name="last_name" value="<?php echo $user["last_name"] ?>">
-        </td>
-        <td>
-            <input type="text" name="email" value="<?php echo $user["email"] ?>">
-        </td>
-        <td>
-            <input type="text" name="password" value="<?php echo $user["password"] ?>">
-        </td>
-        <td>
-            <input type="text" name="ip_address" value="<?php echo $user["ip_address"] ?>">
-        </td>
-        <td>
-            <input type="submit" value="edit">
-        </td>
+        
+        <input type="text" name="first_name" value="<?php echo $user["first_name"] ?>">
+        <input type="text" name="last_name" value="<?php echo $user["last_name"] ?>">
+        <input type="text" name="email" value="<?php echo $user["email"] ?>">
+        <input type="text" name="password" value="<?php echo $user["password"] ?>">
+        <input type="text" name="ip_address" value="<?php echo $user["ip_address"] ?>">
+    
+        <input type="submit" value="edit">
     </form>
 </body>
 </html>

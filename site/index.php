@@ -1,41 +1,10 @@
 <?php
 
     require "database.php";
+    require "sanitizer.php";
 
-    function validateEmail(){
-        
-        if(filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)){
-            return true;
-        }
-        
-        return false;
-    }
-
-    function validateIpAddress(){
-        
-        if(filter_var($_POST["ip_address"],FILTER_VALIDATE_IP)){
-            return true;
-        }
-
-        return false;
-    }
-
-    function mainValidation(){
-
-        $validationMethods = [validateEmail(),validateIpAddress()];
-
-        foreach($validationMethods as $method){
-
-            if($method == false){
-                return false;
-            }
-        }
-
-        $_POST["first_name"] = filter_var($_POST["first_name"],FILTER_SANITIZE_SPECIAL_CHARS);
-        $_POST["last_name"] = filter_var($_POST["last_name"],FILTER_SANITIZE_SPECIAL_CHARS);
-        $_POST["password"] = filter_var($_POST["password"],FILTER_SANITIZE_SPECIAL_CHARS);
-
-        return true;
+    if(isset($_SESSION)){
+        echo $_SESSION["first_name"];
     }
 
     if(isset($_GET["delete"])){
@@ -110,6 +79,8 @@
 </head>
 <body>
 <table>
+    <a href="login.php">Login</a>
+    <br>
     <a href="create.php">create</a>
     <?php foreach($userArray as $user){?>
         <tr>

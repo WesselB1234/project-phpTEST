@@ -9,24 +9,14 @@
 <body>
     <form action="index.php" method="POST">
         <input type="hidden" name="create" value="create">
-        <td>
-            <input type="text" name="first_name" placeholder="First name">
-        </td>
-        <td>
-            <input type="text" name="last_name" placeholder="Last name">
-        </td>
-        <td>
-            <input type="text" name="email" placeholder="Email">
-        </td>
-        <td>
-            <input type="text" name="password" placeholder="Password">
-        </td>
-        <td>
-            <input type="text" name="ip_address" placeholder="IP address">
-        </td>
-        <td>
-            <input type="submit" value="Create">
-        </td>
+
+        <input type="text" name="first_name" placeholder="First name">
+        <input type="text" name="last_name" placeholder="Last name">
+        <input type="text" name="email" placeholder="Email">
+        <input type="text" name="password" placeholder="Password">
+        <input type="text" name="ip_address" placeholder="IP address">
+        
+        <input type="submit" value="Create">
     </form>
 </body>
 </html>

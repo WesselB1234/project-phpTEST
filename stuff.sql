@@ -14,18 +14,18 @@
 
 8 SELECT COUNT(name) FROM products WHERE price >= 180;
 
-9 SELECT name,price from products WHERE price >= 180 ORDER BY price DESC;
-SELECT name,price from products WHERE price >= 180 ORDER BY name ASC;
+9 SELECT name,price from products WHERE price >= 180 ORDER BY price DESC, name;
 
 10 SELECT * from products JOIN manufactures on manufactures.id = manufacturer;
 
 11 SELECT products.name, products.price, manufactures.name from products JOIN manufactures on manufactures.id = manufacturer;
 
-12 SELECT price, manufacturer from products GROUP BY manufacturer;
+12 SELECT AVG(Price), manufacturer from products GROUP BY manufacturer;
 
-13 SELECT price, manufacturer, manufactures.name from products JOIN manufactures on manufactures.id = manufacturer GROUP BY manufacturer;
+13 SELECT AVG(Price), manufactures.name from products JOIN manufactures on manufactures.id = manufacturer GROUP BY manufacturer.Name;
 
 14 SELECT min(price),name FROM products;
+14.	SELECT name,price FROM Products ORDER BY price ASC LIMIT 1?
 
 15 INSERT INTO products(name,price,manufacturer) VALUES('Luidsprekers',70,2);
 
